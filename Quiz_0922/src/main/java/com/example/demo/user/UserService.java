@@ -12,14 +12,15 @@ public class UserService {
 
 	private final UserRepository userRepository;
 
-	public void signup(@Valid UserDto userDto) {
+	public void signup(@Valid UserDto userDto) throws Exception {
+		if(!userDto.getPassword().equals(userDto.getConfirmPassword()) | userDto.isTermsAgreed()==false) {
+			throw new Exception("회원가입을 진행할 수 없습니다.");
+		}
 		SiteUsers user = new SiteUsers(
 				userDto.getUsername(),
 				userDto.getNickname(),
 				userDto.getPassword(),
-				userDto.getConfirmPassword(),
-				userDto.getCharacterType(),
-				userDto.isTermsAgreed()
+				userDto.getCharacterType()
 				);
 		
 		this.userRepository.save(user);

@@ -23,7 +23,7 @@ public class UserController {
 	
 	@PostMapping("/register")
 	public String signup(@Valid UserDto userDto, 
-			BindingResult bindingResult) {
+			BindingResult bindingResult) throws Exception {
 		
 		if(bindingResult.hasErrors()) {
 			return "signup";
