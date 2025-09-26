@@ -23,8 +23,10 @@ public class Securityconfig {
 					-> authorizeHttpRequests
 					.requestMatchers("/admin/**").hasRole("ADMIN") // admin권한을 가지고있는 사람들만 /admin/** 링크의 접속을 허용
 					.requestMatchers(new AntPathRequestMatcher("/**")).permitAll()) // 다른 링크들은 권한요구없이 접속 허용
-			.csrf((csrf) -> csrf
-					.ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")))
+
+//			.csrf((csrf) -> csrf
+//					.ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**"))) 
+			  .csrf(csrf-> csrf.disable()) // csrf 토큰 비활성화 추가
 			  .headers((headers) -> headers
 		                .addHeaderWriter(new XFrameOptionsHeaderWriter(
 		                        XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
