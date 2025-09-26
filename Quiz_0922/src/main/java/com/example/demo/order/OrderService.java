@@ -18,23 +18,23 @@ public class OrderService {
 		DeliveryType deliveryType;
 		PaymentMethod paymentMethod;
 		
-		if(orderDTO.getDeliveryType().equals("NORMAL")) {
+		if(orderDTO.getDeliveryType()==DeliveryType.NORMAL) {
 			deliveryType = DeliveryType.NORMAL;
-		} else if(orderDTO.getDeliveryType().equals("EXPRESS")) {
+		} else if(orderDTO.getDeliveryType()==DeliveryType.EXPRESS) {
 			deliveryType = DeliveryType.EXPRESS;
-		} else if(orderDTO.getDeliveryType().equals("NURYEONG")) {
+		} else if(orderDTO.getDeliveryType()==DeliveryType.NURYEONG) {
 			deliveryType = DeliveryType.NURYEONG;
 		} else {
 			throw new IllegalArgumentException("유효하지 않은 배송 방법입니다.");
 		}
 		
-		if(orderDTO.getPaymentMethod().equals("CARD")) {
+		if(orderDTO.getPaymentMethod()==PaymentMethod.CARD) {
 			paymentMethod = PaymentMethod.CARD;
-		} else if(orderDTO.getPaymentMethod().equals("BANK")) {
+		} else if(orderDTO.getPaymentMethod()==PaymentMethod.BANK) {
 			paymentMethod = PaymentMethod.BANK;
-		} else if(orderDTO.getPaymentMethod().equals("MEMORY")) {
+		} else if(orderDTO.getPaymentMethod()==PaymentMethod.MEMORY) {
 			paymentMethod = PaymentMethod.MEMORY;
-		} else if (orderDTO.getPaymentMethod().equals("TOSIM_MOOD")) {
+		} else if (orderDTO.getPaymentMethod()==PaymentMethod.TOSIM_MOOD) {
 			paymentMethod = PaymentMethod.TOSIM_MOOD;
 		} else {
 			throw new IllegalArgumentException("유효하지 않은 결제 방법입니다.");
