@@ -128,7 +128,7 @@
                                 <div class="col-8">
                                     <div class="d-flex justify-content-between mb-2">
                                         <span>상품 금액:</span>
-                                        <span th:text="${#numbers.formatInteger(orderSummary.subtotal, 0, 'COMMA')} + '원'">45,000원</span>
+                                        <span id="subtotal-display" th:text="${#numbers.formatInteger(orderSummary.subtotal, 0, 'COMMA')} + '원'">45,000원</span>
                                     </div>
                                     <div class="d-flex justify-content-between mb-2">
                                         <span>기억 보관료:</span>
@@ -136,12 +136,12 @@
                                     </div>
                                     <div class="d-flex justify-content-between mb-2">
                                         <span>배송비:</span>
-                                        <span th:text="${#numbers.formatInteger(orderSummary.shippingFee, 0, 'COMMA')} + '원'">0원</span>
+                                        <span id="shippingfee-display" th:text="${#numbers.formatInteger(orderSummary.shippingFee, 0, 'COMMA')} + '원'">0원</span>
                                     </div>
                                     <hr>
                                     <div class="d-flex justify-content-between">
                                         <strong>총 결제 금액:</strong>
-                                        <strong class="text-primary" 
+                                        <strong class="text-primary" id = "totalamount-display"
                                                 th:text="${#numbers.formatInteger(orderSummary.totalAmount, 0, 'COMMA')} + '원'">48,000원</strong>
                                     </div>
                                 </div>
@@ -199,6 +199,92 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script th:inline="javascript">
+    // 💡 중요: 서버에서 Model에 담아 보낸 orderItems 객체를 JavaScript 배열로 변환
+    // 만약 ${orderItems}를 Model에 담았다면, 이 코드를 사용하여 상품 정보를 가져올 수 있습니다.
+    // ${orderItems}가 없는 경우, 이 줄은 주석 처리하거나 빈 배열로 대체해야 합니다.
+    /* const serverOrderItems = [[${orderItems}]];
+    
+    // 서버에 보낼 상품 목록 (상품 ID와 수량을 포함해야 함)
+    // 실제로는 serverOrderItems를 적절히 가공해서 사용해야 합니다.
+    // 현재 템플릿 구조를 보면 orderItems의 각 요소가 OrderItem 객체라고 가정합니다.
+    const orderItems = serverOrderItems.map(item => ({
+        productId: item.product.id, // ID 필드가 있다고 가정
+        quantity: item.quantity
+    })); */
+    
+    // 기억 보관료 (하드코딩된 값)
+    const storageFee = 3000;
+
+    function formatCurrency(number) {
+        return new Intl.NumberFormat('ko-KR').format(number);
+    }
+
+    function updateOrderSummary(selectedDeliveryType) {
+        const requestData = {
+            deliveryType: selectedDeliveryType,
+           // orderItems: orderItems 
+        };
+        
+        // console.log("Sending Request:", requestData); // 요청 데이터 확인용
+
+        fetch('/api/order/calculate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                // 서버 오류 코드(4xx, 5xx)가 발생하면 네트워크 탭에서 확인 가능
+                throw new Error('Server returned status: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // console.log("Received Data:", data); // 응답 데이터 확인용
+            
+            // 총 상품 금액은 서버에서 계산해서 왔다고 가정하지만,
+            // 만약 상품 금액(subtotal)이 고정이라면, 클라이언트에서 계산된 값을 사용해야 할 수도 있습니다.
+            // 현재 API 컨트롤러에서는 subtotal=500으로 임시 고정되어 있습니다.
+
+            // 3. 응답 받은 JSON 데이터를 화면에 업데이트
+            document.getElementById('subtotal-display').textContent = formatCurrency(data.subtotal) + '원';
+            document.getElementById('shippingfee-display').textContent = formatCurrency(data.shippingFee) + '원';
+            
+            // 총 금액을 서버 응답 data.totalAmount로 업데이트
+            document.getElementById('totalamount-display').textContent = formatCurrency(data.totalAmount) + '원';
+            
+        })
+        .catch(error => {
+            console.error('금액 계산 오류:', error);
+            alert('총 결제 금액을 계산하는 중 오류가 발생했습니다. 자세한 내용은 콘솔을 확인하세요.');
+        });
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const deliveryInputs = document.querySelectorAll('input[name="deliveryType"]');
+
+        // 이벤트 리스너 등록
+        deliveryInputs.forEach(input => {
+            input.addEventListener('change', (e) => {
+                updateOrderSummary(e.target.value);
+            });
+        });
+        
+        // 페이지 로드 시 기본값으로 한 번 실행 (선택된 라디오 버튼의 값)
+        const initialSelected = document.querySelector('input[name="deliveryType"]:checked');
+        if (initialSelected) {
+            updateOrderSummary(initialSelected.value);
+        } else {
+            // 기본으로 선택된 항목이 없다면 첫 번째 항목을 선택한 것처럼 계산
+            if (deliveryInputs.length > 0) {
+                updateOrderSummary(deliveryInputs[0].value);
+            }
+        }
+    });
+</script>
 </body>
 </html>
