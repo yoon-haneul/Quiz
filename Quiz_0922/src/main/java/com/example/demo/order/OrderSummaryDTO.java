@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class OrderSummaryDTO {
 	
-	public OrderSummaryDTO(long subtotal, long shippingFee, long totalAmount) {
+	public OrderSummaryDTO(int subtotal, int shippingFee, int totalAmount) {
 		this.subtotal = subtotal;
 		this.shippingFee = shippingFee;
 		this.totalAmount = totalAmount;
@@ -23,9 +23,9 @@ public class OrderSummaryDTO {
 
 	private long subtotal;
 	
-	private long shippingFee;
+	private int shippingFee;
 	
-	private long totalAmount;
+	private int totalAmount;
 	
 	
 	

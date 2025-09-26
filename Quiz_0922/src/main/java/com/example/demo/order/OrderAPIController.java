@@ -14,14 +14,14 @@ public class OrderAPIController {
 	public OrderSummaryDTO calculateOrder(
 			@RequestBody CalculateRequestDto request) {
 		
-		long shippingFee = 0;
-		long subtotal = 500;
+		int shippingFee = 0;
+		int subtotal = 500; // 물품 가격
 		
 		if(request.getDeliveryType().equals("EXPRESS")) {
 			shippingFee = 10000;
 		} 
 		
-		long totalAmount = subtotal + shippingFee + 3000;
+		int totalAmount = subtotal + shippingFee + 3000;
 		
 		return new OrderSummaryDTO(subtotal, shippingFee, totalAmount);
 	}

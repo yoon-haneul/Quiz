@@ -16,9 +16,12 @@ public class OrderController {
 	
 	@GetMapping("/order/direct")
 	public String showOrder(Model model,
-			OrderDTO orderDTO) {
+			OrderDTO orderDTO
+			) {
+//			,OrderTestDTO productDTO) {
 		
 		model.addAttribute("orderDTO", orderDTO);
+//		model.addAttribute("orderItem", productDTO);
 		model.addAttribute("orderSummary", new OrderSummaryDTO());
 		
 		return "order";
