@@ -31,6 +31,8 @@ public class SiteUsers {
 //	private String confirmPassword;
 	@Enumerated(EnumType.STRING)
 	private UserCharacter characterType;
+	@Enumerated(EnumType.STRING)
+	private UserRole userRole; 
 //	@Column
 //	private boolean termsAgreed;
 	
@@ -42,6 +44,7 @@ public class SiteUsers {
 		this.password = password;
 //		this.confirmPassword = confirmPassword;
 		this.characterType = characterType;
+		this.userRole = UserRole.USER;
 //		this.termsAgreed = termsAgreed;
 	}
 	
