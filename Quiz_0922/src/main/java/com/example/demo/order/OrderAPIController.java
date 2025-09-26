@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.order.Orders.DeliveryType;
+
 @RestController
 @RequestMapping("/api/order")
 public class OrderAPIController {
@@ -17,7 +19,7 @@ public class OrderAPIController {
 		int shippingFee = 0;
 		int subtotal = 500; // 물품 가격
 		
-		if(request.getDeliveryType().equals("EXPRESS")) {
+		if(request.getDeliveryType()==DeliveryType.EXPRESS) {
 			shippingFee = 10000;
 		} 
 		
