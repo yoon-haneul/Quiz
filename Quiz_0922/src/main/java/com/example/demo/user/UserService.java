@@ -25,7 +25,7 @@ public class UserService {
 		SiteUsers user = new SiteUsers(
 				userDto.getUsername(),
 				userDto.getNickname(),
-				userDto.getPassword(),
+				passwordEncoder.encode(userDto.getPassword()),
 				//getPassword, // 비밀번호 암호화 사용시 사용할 변수
 				userDto.getCharacterType()
 				);

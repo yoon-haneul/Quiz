@@ -27,12 +27,11 @@ public class SiteUsers {
 	private String nickname;
 	@Column(nullable=false)
 	private String password;
-//	@Column(nullable=false)
-//	private String confirmPassword;
 	@Enumerated(EnumType.STRING)
 	private UserCharacter characterType;
-//	@Column
-//	private boolean termsAgreed;
+	@Enumerated(EnumType.STRING)
+	private UserRole userRole; 
+
 	
 	public SiteUsers(String username, String nickname, String password, 
 			UserCharacter characterType) {
@@ -40,9 +39,9 @@ public class SiteUsers {
 		this.username = username;
 		this.nickname = nickname;
 		this.password = password;
-//		this.confirmPassword = confirmPassword;
 		this.characterType = characterType;
-//		this.termsAgreed = termsAgreed;
+		this.userRole = UserRole.USER;
+
 	}
 	
 	
