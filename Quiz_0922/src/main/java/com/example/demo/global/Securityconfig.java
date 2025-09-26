@@ -49,12 +49,12 @@ public class Securityconfig {
 		return new BCryptPasswordEncoder(); //비밀번호 암호화 
 	}
 	
-	@Bean
-	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-		// AuthenticationConfiguration : 웹 서비스(어플리케이션의)인증 설정을 캡슐화 하고 있음.
-		//	-> getAuthenticationManager라는 메서드를 호출해 정보를 가져옴.
-		return authenticationConfiguration.getAuthenticationManager();
-	    }
+//	@Bean
+//	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+//		// AuthenticationConfiguration : 웹 서비스(어플리케이션의)인증 설정을 캡슐화 하고 있음.
+//		//	-> getAuthenticationManager라는 메서드를 호출해 정보를 가져옴.
+//		return authenticationConfiguration.getAuthenticationManager();
+//	    } 해당 객체 활용시 로그인에 오류가 생겨 주석처리해놨습니다.
 	
 	
 }
