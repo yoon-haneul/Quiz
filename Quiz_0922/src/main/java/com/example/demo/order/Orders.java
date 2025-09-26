@@ -40,13 +40,13 @@ public class Orders {
 
 	private LocalDateTime createdAt;
 	
-//	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.STRING)
 	private DeliveryType deliveryType;
 	
-//	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.STRING)
 	private PaymentMethod paymentMethod;
 	
-//	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.STRING)
 	private DeliverStatus status;
 
 	public Orders(String receiverName, String receiverPhone, String deliveryAddress, String specialRequest,
